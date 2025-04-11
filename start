@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sombras en el Bosque</title>
+  <style>
+    body {
+      background-color: #0b0f0c;
+      color: #e0e0e0;
+      font-family: 'Georgia', serif;
+      padding: 20px;
+    }
+    #game {
+      max-width: 700px;
+      margin: auto;
+      background-color: #1a1f1b;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #000;
+    }
+    button {
+      margin: 10px 0;
+      padding: 10px 20px;
+      background-color: #2d3a2f;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #4d6b50;
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <h1>🌲 Sombras en el Bosque</h1>
+    <p id="story"></p>
+    <div id="choices"></div>
+  </div>
+
+  <script>
+    const story = document.getElementById("story");
+    const choices = document.getElementById("choices");
+
+    const gameData = {
+      start: {
+        text: "Despiertas entre ramas húmedas, en medio de un bosque oscuro. Una bruma espesa cubre el suelo. No recuerdas tu nombre. A lo lejos, escuchas un cuervo... y voces susurrando tu nombre.",
+        options: [
+          { text: "Seguir la voz", next: "voz" },
+          { text: "Escapar hacia la colina", next: "colina" }
+        ]
+      },
+      voz: {
+        text: "Te acercas sigilosamente, la voz viene de un árbol retorcido. Una figura encapuchada aparece: 'Has vuelto. ¿Recuerdas el trato?'",
+        options: [
+          { text: "Aceptar el trato sin saber qué es", next: "trato_aceptado" },
+          { text: "Negarte y correr", next: "huida" }
+        ]
+      },
+      colina: {
+        text: "Subes con dificultad. Desde la cima ves un claro con una luz cálida. Una cabaña. Pero algo acecha entre los árboles.",
+        options: [
+          { text: "Correr hacia la cabaña", next: "cabanaclara" },
+          { text: "Ocultarte y observar", next: "emboscada" }
+        ]
+      },
+      trato_aceptado: {
+        text: "Una marca aparece en tu brazo. Ahora perteneces al bosque. Eternamente.",
+        options: [
+          { text: "Reintentar", next: "start" }
+        ]
+      },
+      huida: {
+        text: "Corres sin mirar atrás. Tropiezas, te golpeas la cabeza... y despiertas en una casa con chimenea. Una anciana te sirve té. Estás a salvo. Por ahora.",
+        options: [
+          { text: "Volver a empezar", next: "start" }
+        ]
+      },
+      cabanaclara: {
+        text: "La puerta está abierta. Dentro hay un diario que habla de ti, escrito antes de tu nacimiento. La última frase dice: 'Hoy vuelve'.",
+        options: [
+          { text: "Leer más", next: "final_profecia" },
+          { text: "Quemar el diario", next: "final_fuego" }
+        ]
+      },
+      emboscada: {
+        text: "Esperas... y ves una sombra moverse. No estás solo. Algo salta sobre ti. Todo se vuelve negro.",
+        options: [
+          { text: "Reintentar", next: "start" }
+        ]
+      },
+      final_profecia: {
+        text: "Comprendes tu origen. El bosque es parte de ti. Te conviertes en su guardián. Eres libre, dentro de él.",
+        options: [
+          { text: "Jugar de nuevo", next: "start" }
+        ]
+      },
+      final_fuego: {
+        text: "El fuego lo consume todo, y con él, la maldición. Eres libre. El bosque desaparece como un sueño.",
+        options: [
+          { text: "Jugar de nuevo", next: "start" }
+        ]
+      }
+    };
+
+    function showScene(scene) {
+      const data = gameData[scene];
+      story.textContent = data.text;
+      choices.innerHTML = "";
+      data.options.forEach(option => {
+        const button = document.createElement("button");
+        button.textContent = option.text;
+        button.onclick = () => showScene(option.next);
+        choices.appendChild(button);
+      });
+    }
+
+    showScene("start");
+  </script>
+</body>
+</html>
